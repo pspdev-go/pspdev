@@ -49,11 +49,15 @@ jobs:
 
       - name: Build PSP smoke test
         run: |
+          cd testdata/hello
+          go run generate_assets.go
+          cd ../..
           docker run --rm \
             --platform linux/amd64 \
             --volume "$PWD/testdata/hello:/workspace" \
             pspdev-go/pspdev:test
-          test -s testdata/hello/build/pspgo/cmake/EBOOT.PBP
+          cd testdata/hello
+          go run verify_pbp.go
 
       - name: Publish image
         if: github.event_name != 'pull_request'

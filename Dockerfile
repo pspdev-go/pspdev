@@ -10,7 +10,7 @@ FROM --platform=linux/amd64 ${PSPDEV_IMAGE}
 ARG TINYGO_REPOSITORY=https://github.com/pspdev-go/tinygo.git
 ARG TINYGO_REF=f33c350b8f12933ee3e1c1dcbfe9a664ce183fbe
 ARG PSPGO_MODULE=github.com/pspdev-go/pspgo
-ARG PSPGO_REF=9a81a07b174661b0feb435dc9884db263c908339
+ARG PSPGO_REF=main
 
 COPY --from=go-toolchain /usr/local/go /usr/local/go
 

@@ -26,6 +26,24 @@ The resulting PSP package is written to:
 build/pspgo/cmake/EBOOT.PBP
 ```
 
+## PSP menu assets
+
+Add an optional `pspgo.toml` to the application project to package menu
+artwork and audio:
+
+```toml
+title = "My PSP Game"
+icon = "assets/ICON0.PNG"
+animation = "assets/ICON1.PMF"
+preview = "assets/PIC0.PNG"
+background = "assets/PIC1.PNG"
+music = "assets/SND0.AT3"
+```
+
+All paths are relative to the project directory mounted at `/workspace`, so no
+additional Docker volumes or flags are required. The files are included in
+the generated `EBOOT.PBP`.
+
 Pass a package path after the image name when the PSP application is not the
 module's root package:
 
@@ -82,7 +100,7 @@ The image pins:
 - `pspdev/pspdev:v20260701`
 - Go 1.25.9
 - the `support-psp` TinyGo commit
-- a tested `pspgo` commit
+- the latest `pspgo` main branch
 
 Override the source references with Docker build arguments when testing an
 update.
