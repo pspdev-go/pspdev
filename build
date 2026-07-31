@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+image="${PSPDEV_GO_IMAGE:-ghcr.io/pspdev-go/pspdev:latest}"
+project="${1:-$PWD}"
+package="${2:-.}"
+
+project="$(cd "$project" && pwd)"
+
+set -- docker run --rm --platform linux/amd64 \
+	--volume "$project:/workspace" \
+	--workdir /workspace
+
+case "$(uname -s)" in
+	Linux)
+		set -- "$@" --user "$(id -u):$(id -g)"
+		;;
+esac
+
+exec "$@" "$image" "$package"

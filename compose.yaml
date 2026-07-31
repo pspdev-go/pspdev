@@ -1,0 +1,7 @@
+services:
+  build:
+    image: ${PSPDEV_GO_IMAGE:-ghcr.io/pspdev-go/pspdev:latest}
+    platform: linux/amd64
+    working_dir: /workspace
+    volumes:
+      - ${PROJECT_DIR:-.}:/workspace
