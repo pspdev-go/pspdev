@@ -37,6 +37,13 @@ jobs:
             type=ref,event=tag
             type=sha
 
+      - name: Resolve pspgo main
+        id: pspgo
+        run: |
+          ref="$(git ls-remote https://github.com/pspdev-go/pspgo.git refs/heads/main | cut -f1)"
+          test -n "$ref"
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+
       - name: Build test image
         uses: docker/build-push-action@v7
         with:
@@ -44,6 +51,8 @@ jobs:
           platforms: linux/amd64
           load: true
           tags: pspdev-go/pspdev:test
+          build-args: |
+            PSPGO_REF=${{ steps.pspgo.outputs.ref }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -68,4 +77,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            PSPGO_REF=${{ steps.pspgo.outputs.ref }}
           cache-from: type=gha
